@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <!-- Source: https://gitlab.com/FuckBilibili/FuckBilibili -->
-
 <!-- Work In Progress -->
 
-<html lang="zh-CN" dir="ltr">
+<html class="mdui-valign mdui-theme-primary-white mdui-theme-accent-black" style="width: 100%; height: 100%;" lang="zh-CN" dir="ltr">
     <head>
         <title>GeekApk Web</title>
         <meta charset="utf-8">
@@ -25,19 +24,20 @@
         <meta property="og:site_name" content="GeekApk Project">
         <meta property="og:image" content="https://geekapk.org/bitmap/geekapk.png">
 
-        <meta name="viewport" content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width">
+        <meta name="viewport" content="initial-scale=1, user-scalable=no, width=device-width">
 
-        <style type="text/css" media="screen">
-            body {
-                margin: 20%;
-                font-weight: bold;
-                text-align: center;
-            }
-        </style>
+        <!-- GeekStyle -->
+        <script src="https://geekapk.org/js/geekstyle.js"></script>
     </head>
 
-    <body class="mdui-color-theme">
-        <h1 class="mdui-text-color-theme" onclick="window.location='https://geekapk.org'">Coming Soon...</h1>
-        <button onclick="window.location='https://github.com/geekapk-r/'" class="mdui-color-accent mdui-fab mdui-fab-fixed mdui-ripple" mdui-tooltip="{content: '加入开发'}"><i class="mdui-icon material-icons">build</i></button>
+    <body class="mdui-valign mdui-center mdui-text-color-theme">
+        <div>
+            <i class="mdui-icon mdui-center material-icons mdui-typo-display-2" onclick="window.location='https://geekapk.org/'">android</i>
+            <br>
+            <h1 class="mdui-center">Comming Soon...</h1>
+        </div>
+
+        <button onclick="window.location='https://github.com/geekapk-r/web.geekapk.org/'" class="mdui-color-theme-accent mdui-fab mdui-fab-fixed mdui-ripple" mdui-tooltip="{content: '加入开发'}"><i class="mdui-icon material-icons">build</i></button>
+        <script>autodark();</script>
     </body>
 </html>
