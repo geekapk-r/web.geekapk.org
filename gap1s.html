@@ -79,8 +79,11 @@ Licensed under LGPLv3 -->
                 cls.remove(MDUI_DARK_CLASS)
         }
 
+        template = '<li class="mdui-list-item mdui-ripple"><a class="mdui-typo">%t</a></li>'
+
         // Ruby dafa is good
         puts = console.log
+
     </script>
 </head>
 
@@ -105,35 +108,59 @@ Licensed under LGPLv3 -->
     <script>
         $$('#speak').on('click', () => {
             mdui.prompt("您要在续命大会上说什么", (v) => {
-                $.ajax({
+                $$.ajax({
                     method: 'POST',
                     url: 'https://api.geekapk.org/comment',
                     data: {
                         content: v
                     },
-                    success: (b) => {}
+                    success: (b) => {
+                        mdui.snackbar("成功发言!", {
+                            timeout: 300
+                        });
+                    }
                 });
             }, (v, d) => d.close(), {
                 confirmOnEnter: true
             });
-            mdui.snackbar("成功发言!", {
-                timeout: 300
-            });
         });
 
         $$('#plus1s').on('click', () => {
-            $.ajax({
+            $$.ajax({
                 method: 'POST',
                 url: 'https://api.geekapk.org/p1s',
-                success: (b) => {}
+                success: (b) => {
+                    mdui.snackbar("成功续命一秒! life：" + b, {
+                        timeout: 80
+                    });
+                }
             });
-            mdui.snackbar("成功续命一秒!", {
-                timeout: 80
+        });
+
+        $$('#title').on('click', () => {
+            $$.ajax({
+                method: 'GET',
+                url: 'https://api.geekapk.org/comment',
+                success: (b) => {
+                    var tmp = '';
+                    for (var i of JSON.parse(b)['list']) {
+                        tmp += template.replace('%t', i.toString().replace("script", "em").replace(
+                            "SCRIPT",
+                            "bold"));
+                    }
+                    $$('#list')[0].innerHTML = tmp;
+                }
             });
         });
 
         autodark();
+
     </script>
+    <div>
+        <ul id="list" class="mdui-list">
+            <!-- List -->
+        </ul>
+    </div>
 </body>
 
 </html>
