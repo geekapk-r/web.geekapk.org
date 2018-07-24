@@ -35,6 +35,8 @@ Licensed under LGPLv3 -->
     <script>
         var $$ = mdui.JQ;
 
+        host = 'https://api.geekapk.org'
+
         function getQueryParams(qs) {
             qs = qs.split('+').join(' ');
 
@@ -83,7 +85,6 @@ Licensed under LGPLv3 -->
 
         // Ruby dafa is good
         puts = console.log
-
     </script>
 </head>
 
@@ -110,10 +111,9 @@ Licensed under LGPLv3 -->
             mdui.prompt("您要在续命大会上说什么", (v) => {
                 $$.ajax({
                     method: 'POST',
-                    url: 'https://api.geekapk.org/comment',
-                    data: {
+                    url: host + '/comment?' + $$.param({
                         content: v
-                    },
+                    }),
                     success: (b) => {
                         mdui.snackbar("成功发言!", {
                             timeout: 300
@@ -128,7 +128,7 @@ Licensed under LGPLv3 -->
         $$('#plus1s').on('click', () => {
             $$.ajax({
                 method: 'POST',
-                url: 'https://api.geekapk.org/p1s',
+                url: host + '/p1s',
                 success: (b) => {
                     mdui.snackbar("成功续命一秒! life：" + b, {
                         timeout: 80
@@ -140,7 +140,7 @@ Licensed under LGPLv3 -->
         $$('#title').on('click', () => {
             $$.ajax({
                 method: 'GET',
-                url: 'https://api.geekapk.org/comment',
+                url: host + '/comment',
                 success: (b) => {
                     var tmp = '';
                     for (var i of JSON.parse(b)['list']) {
@@ -154,7 +154,6 @@ Licensed under LGPLv3 -->
         });
 
         autodark();
-
     </script>
     <div>
         <ul id="list" class="mdui-list">
