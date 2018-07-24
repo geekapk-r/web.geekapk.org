@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<!-- Copyright(C) 2018 duangsuse
+love_geekapk.html is a standalone web fortend tool giving +1s to geekapk
+Licensed under LGPLv3 -->
+<html lang="zh-cn" dir="ltr">
+
+<head>
+    <!-- Basic tags -->
+    <title>给 GeekApk 续一秒</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=no">
+
+    <!-- OpenGraph & SEO -->
+    <meta name="description" content="死去多时的 GeekApk 需要续命重启，你会给她续命吗？">
+    <link rel="icon" href="https://geekapk.org/bitmap/symbolic/geekapk-128.png">
+    <meta property="og:site_name" content="GeekApk">
+    <meta property="og:title" content="+1s! GeekApk!">
+    <meta property="og:description" content="死去多时的 GeekApk 需要续命重启，你会给她续命吗？">
+
+    <!-- Useful tags -->
+    <meta name="theme-color" content="#009688">
+    <meta content="index,follow" name="robots">
+    <meta content="telphone=no, email=no" name="format-detection">
+    <meta name="format-detection" content="telephone=no">
+
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+
+    <!-- MDUI <3 duangsuse -->
+    <link rel="stylesheet" href="https://cdnjs.loli.net/ajax/libs/mdui/0.4.1/css/mdui.min.css">
+    <script src="https://cdnjs.loli.net/ajax/libs/mdui/0.4.1/js/mdui.min.js"></script>
+
+    <!-- Small intialize script -->
+    <script>
+        var $$ = mdui.JQ;
+
+        function getQueryParams(qs) {
+            qs = qs.split('+').join(' ');
+
+            var params = {},
+                tokens,
+                re = /[?&]?([^=]+)=([^&]*)/g;
+
+            while (tokens = re.exec(qs)) {
+                params[decodeURIComponent(tokens[1])] = decodeURIComponent(tokens[2]);
+            }
+
+            return params;
+        }
+
+        function tfmt(date) {
+            return date.getFullYear() + " 年 " + (date.getMonth() + 1) + " 月 " + date.getDate() + " " + date.getHours() +
+                ":" + date.getMinutes() + ":" + date.getSeconds()
+        }
+        // should use dark style from 19:00 to 6:00
+        function shouldApplyDarkStyle() {
+            var conf = localStorage['night']
+            if (conf != null) {
+                if (conf == false.toString())
+                    return false;
+                else return true;
+            }
+            var dh = new Date();
+            var nightBegin = localStorage['nightBegin'] || 19
+            var nightEnd = localStorage['nightEnd'] || 6
+            return dh.getHours() >= nightBegin && dh.getHours() <= 24 || dh.getHours() <= nightEnd
+        }
+
+        MDUI_DARK_CLASS = 'mdui-theme-layout-dark'
+
+        // call this to apply dark style automatically
+        function autodark() {
+            var body = mdui.JQ('body')[0]
+            var cls = body.classList
+            if (shouldApplyDarkStyle())
+                cls.add(MDUI_DARK_CLASS)
+            else
+                cls.remove(MDUI_DARK_CLASS)
+        }
+
+        // Ruby dafa is good
+        puts = console.log
+    </script>
+</head>
+
+<!-- AppBar -->
+
+<body class="mdui-theme-primary-teal mdui-theme-accent-pink">
+    <div mdui-headroom="" class="mdui-appbar">
+        <div class="mdui-toolbar mdui-color-theme">
+            <!-- Title -->
+            <a id="title" class="mdui-text-color-white mdui-typo-title" mdui-tooltip="{content: '+1s! GeekApk!'}">GeekApk 续命平台</a>
+            <div class="mdui-toolbar-spacer"></div>
+            <!-- Action buttons -->
+            <a id="speak" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content: '讲话'}">
+                <i class="mdui-text-color-white mdui-icon material-icons">comment</i>
+            </a>
+            <a id="plus1s" class="mdui-btn mdui-btn-icon" mdui-tooltip="{content: '续命'}">
+                <i class="mdui-text-color-white mdui-icon material-icons">airline_seat_flat</i>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        $$('#speak').on('click', () => {
+            mdui.prompt("您要在续命大会上说什么", (v) => {
+                $.ajax({
+                    method: 'POST',
+                    url: 'https://api.geekapk.org/comment',
+                    data: {
+                        content: v
+                    },
+                    success: (b) => {}
+                });
+            }, (v, d) => d.close(), {
+                confirmOnEnter: true
+            });
+            mdui.snackbar("成功发言!", {
+                timeout: 300
+            });
+        });
+
+        $$('#plus1s').on('click', () => {
+            $.ajax({
+                method: 'POST',
+                url: 'https://api.geekapk.org/p1s',
+                success: (b) => {}
+            });
+            mdui.snackbar("成功续命一秒!", {
+                timeout: 80
+            });
+        });
+
+        autodark();
+    </script>
+</body>
+
+</html>
